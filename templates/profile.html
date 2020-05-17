@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block profile %}
+<main class="container mt-3">
+    <div class="card my-4 mx-auto">
+        <div class="card-body m-2 m-md-4">
+            <article class="row">
+                <div class="col-5"><img src="{{ teacher.picture }}" class="img-fluid" alt=""></div>
+                <div class="col-7">
+
+                    <section class="teacher=info">
+                        <h1 class="h2">{{ teacher.name }}</h1>
+                        <p>{% for goal in teacher.goals %}<span
+                                class="badge badge-secondary mr-2">{{ goals[goal] }}</span>{% endfor %}</p>
+                      <div class="row pl-3">
+                        <p>Рейтинг: {{ teacher.rating }}. Ставка: {{ teacher.price }} &#8381 / час</p>
+                      </div>
+
+                        <p>{{ teacher.about }}</p>
+                    </section>
+                </div>
+
+                <section class="available">
+                    <p class="available">
+                    <h4 class="mb-4 mt-5">Записаться на пробный урок</h4>{% for day, slots in time.items() %}
+                    <h6 class="mt-4">{{ days[day] }}</h6>
+                    {% if True not in slots.values() %}<p>Нет свободных окон </p>{% endif %}
+                    {% for time_slot, is_free in slots.items() %}{% if is_free %}<a
+                        href="/booking/{{ teacher.id }}/{{ day }}/{{ time_slot|replace(':', '-') }}/"
+                        class="btn btn-outline-success mr-2 mb-2">{{ time_slot }} свободно</a>{% endif %}
+                    {% endfor %}{% endfor %}
+                </section>
+
+            </article>
+        </div>
+
+    </div>
+</main>
+{% endblock %}
